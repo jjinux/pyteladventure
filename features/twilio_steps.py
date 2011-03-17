@@ -2,6 +2,7 @@ import os
 from tempfile import mkstemp
 
 from lettuce import step, before, after, world
+from nose.tools import assert_true
 
 import pyteladventure
 
@@ -19,9 +20,19 @@ def after_each_scenario(scenario):
     os.unlink(pyteladventure.DATABASE)
 
 
+@step(u'When I (GET|POST) "(/.*)"')
+def when_i_open_path(step, method, path):
+    world.response = world.app.open('/', method=method)
+
+
+@step(u'Then I should see "(.*)"')
+def then_i_should_see_string(step, string):
+    assert_true(string in world.response.data)
+
+
 @step(u'When I receive a phone call')
 def when_i_receive_a_phone_call(step):
-    world.response = self.app.get('/')
+    assert False, 'This step must be implemented'
 
 
 @step(u'Then I should get a valid TwiML response')
@@ -113,14 +124,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 #
 # from lettuce import step
 # from lxml import etree
-# from nose.tools import assert_true
-#
-#
-# def sanitize_method(method="post"):
-#     """Return "get" or "post" based on method."""
-#     method = method.lower()
-#     assert_true(method in ["get", "post"])
-#     return method
 #
 #
 # @step(u'I should get a valid TwiML response')
