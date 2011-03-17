@@ -3,6 +3,10 @@ Feature: Twilio
     As a user
     I want to call a phone number and create an interactive story
 
+    Scenario: Check that the server works
+        When I GET "/"
+        Then I should see "Hello World!"
+
     Scenario: Start the adventure
         Given there are a few nodes
 
