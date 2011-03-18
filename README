@@ -1,0 +1,58 @@
+				 PyTeladventure
+				 ==============
+
+This is an interactive, phone-based, adventure game written in Python using
+Flask.
+
+It's based on https://github.com/jjinux/teladventure which is the same
+application, written in Ruby on Rails.
+
+I have started the port but not finished it.  Some of the tests are passing,
+but there is still a lot of stuff to finish off.
+
+Phone number: None yet.
+Running websites: None yet.
+Source code: None yet.
+
+Installation
+============
+
+    $ sudo apt-get install python-virtualenv
+
+Running
+=======
+
+Setup the virtualenv environment:
+
+    $ bash  # If you're not already running Bash.
+    $ . env/bin/activate
+
+If you haven't already setup the schema, do so by running the following in a
+Python shell (make sure you already setup virtualenv):
+
+    $ python
+    >>> from pyteladventure import init_db
+    >>> init_db()
+
+Now, start the server:
+
+    $ python runserver.py
+
+Running Tests
+=============
+
+Setup the virtualenv environment and then run:
+
+    $ lettuce
+
+TODO
+====
+
+ * Finish porting from https://github.com/jjinux/teladventure.
+ * Build a website and show the tree graphically.
+ * Give more help when creating or editing nodes.
+ * Make it possible to skip the story.
+ * Get a non-toll-free number for Europeans.
+ * Test coverage.
+ * Figure out the right voice in the feature file.  Who am I?
+ * Acknowledge Abraham who gave me the idea.
