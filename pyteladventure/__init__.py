@@ -43,15 +43,15 @@ def init_db():
 @app.before_request
 def before_request():
     from pyteladventure.model import Model  # Import late.
-    g._db = connect_db()
-    g._cursor = g._db.cursor()
+    g.connection = connect_db()
+    g._cursor = g.connection.cursor()
     g.model = Model(g._cursor)
 
 
 @app.after_request
 def after_request(response):
     g._cursor.close()
-    g._db.close()
+    g.connection.close()
     return response
 
 
