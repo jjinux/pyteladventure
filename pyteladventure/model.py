@@ -4,6 +4,17 @@ class Model(object):
 
     I'm keeping it low key for the time being.  I'm not bothering with an ORM.
 
+    This class wraps up various queries, but it doesn't manage transactions for
+    you.  That's because you might want to wrap multiple method calls in a
+    single transaction.  Furthermore, if you don't handle your own transactions,
+    all the changes you make will rollback.  The best way to handle
+    transactions is to use the connection as a context:
+
+        from __future__ import with_statement
+
+        with connection:
+            model.some_method()
+
     """
 
     def __init__(self, cursor):
@@ -19,7 +30,7 @@ class Model(object):
 
         """
         cur = self._cursor.execute(query, args)
-        rv = {}
+        rv = []
         for row in cur.fetchall():
             item = {}
             for idx, value in enumerate(row):
@@ -97,3 +108,21 @@ class Model(object):
             parent_id=root_node_id,
             choice="http://api.twilio.com/2010-04-01/Accounts/ACec5bb8f63c52532cb3a8c18a1b2e85b1/Recordings/REba8fcb64c468734ee36a83dad05140b2",
             outcome="http://api.twilio.com/2010-04-01/Accounts/ACec5bb8f63c52532cb3a8c18a1b2e85b1/Recordings/RE7b10cd216a05a938b8d05bb63a1ed393")
+
+    def find_root_node(self):
+        """Find and return the root node.
+
+        This may raise IndexError.
+
+        """
+        return self._query_db_for_one_record(
+            "SELECT * FROM nodes WHERE parent_id IS NULL")
+
+    def find(self, id):
+        """Find and return a node given its id.
+
+        This may raise IndexError.
+
+        """
+        return self._query_db_for_one_record(
+            "SELECT * FROM nodes WHERE parent_id IS ?", (id,))
