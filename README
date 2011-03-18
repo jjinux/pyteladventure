@@ -1,8 +1,8 @@
 				 PyTeladventure
 				 ==============
 
-This is an interactive, phone-based, adventure game written in Python using
-Flask.
+This is an interactive, phone-based, adventure game.  It's written in Python
+using Flask and Twilio.
 
 It's based on https://github.com/jjinux/teladventure which is the same
 application, written in Ruby on Rails.
