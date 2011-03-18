@@ -21,7 +21,9 @@ def call():
 @app.route('/show_node')
 def show_node():
     node = find_node()
-    return 'Hello World!'
+    choices = []
+    children = g.model.find_children(node["id"])
+    return "XXX NOT DONE"
 
 
 def say_message_and_redirect(message, url):
@@ -37,3 +39,21 @@ def find_node():
         return g.model.find_root_node()
     else:
         return g.model.find(node_id)
+
+
+class Choice(object):
+
+    """This is a little DSL for choices.
+
+        Choice.new(label="root_menu",
+                   digits="*2",
+                   view_callback=lambda: do_something...,
+                   controller_block=lambda: redirect_to...)
+
+    """
+
+    def __init__(self, label, digits, view_callback, controller_callback):
+        self.label = str(label)
+        self.digits = str(digits)
+        self.view_callback = view_callback
+        self.controller_callback = controller_callback
