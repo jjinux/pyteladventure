@@ -6,11 +6,10 @@ from contextlib import closing
 import os
 import sqlite3
 
-from flask import Flask, request, session, g, redirect, url_for, \
-                  abort, render_template, flash
+from flask import Flask, g
 
 DATABASE = "pyteladventure.db"  # Relative to project directory
-DEBUG = False
+DEBUG = True
 SECRET_KEY = '8djgk437fkbmnehge0ofvjgnrtoE7CVNghednxdbnvfuir'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -41,51 +40,19 @@ def init_db():
         db.commit()
 
 
-def query_db(query, args=()):
-    """Query the database and return a list of dicts.
-
-    For instance:
-
-        query_db('select * from users where username = ?', [username])
-
-    """
-    cur = g.db.execute(query, args)
-    rv = {}
-    for row in cur.fetchall():
-        item = {}
-        for idx, value in enumerate(row):
-            key = cur.description[idx][0]
-            item[key] = value
-        rv.append(item)
-    return rv
-
-
-def query_db_for_one_record(query, args=()):
-    """Call query_db and return exactly one record as a dict.
-
-    If there isn't exactly one record, raise an IndexError.
-
-    """
-    rv = query_db(query, args)
-    if len(rv) != 1:
-        raise IndexError("Expected exactly one row; %s rows returned" %
-                         len(rv))
-    return rv[0]
-
-
 @app.before_request
 def before_request():
-    g.db = connect_db()
+    from pyteladventure.model import Model  # Import late.
+    g._db = connect_db()
+    g._cursor = g._db.cursor()
+    g.model = Model(g._cursor)
 
 
 @app.after_request
 def after_request(response):
-    g.db.close()
+    g._cursor.close()
+    g._db.close()
     return response
 
 
 import pyteladventure.views
-
-# XXX
-# Setup README like Flaskr.
-# Setup README like Teladventure.
