@@ -2,21 +2,26 @@ import os
 from tempfile import mkstemp
 
 from lettuce import step, before, after, world
-from nose.tools import assert_true
+from lxml import etree
+from nose.tools import assert_true, assert_equal
 
 import pyteladventure
 
 
 @before.each_scenario
 def before_each_scenario(scenario):
-    world.db_fd, pyteladventure.app.config['DATABASE'] = mkstemp()
+    from pyteladventure.model import Model  # Import late.
+    world._db_fd, pyteladventure.app.config['DATABASE'] = mkstemp()
     world.app = pyteladventure.app.test_client()
     pyteladventure.init_db()
+    world._db = pyteladventure.connect_db()
+    world._cursor = world._db.cursor()
+    world.model = Model(world._cursor)
 
 
 @after.each_scenario
 def after_each_scenario(scenario):
-    os.close(world.db_fd)
+    os.close(world._db_fd)
     os.unlink(pyteladventure.DATABASE)
 
 
@@ -32,32 +37,43 @@ def then_i_should_see_string(step, string):
 
 @step(u'When I receive a phone call')
 def when_i_receive_a_phone_call(step):
-    assert False, 'This step must be implemented'
+    world.response = world.app.get('/call')
 
 
 @step(u'Then I should get a valid TwiML response')
 def then_i_should_get_a_valid_twiml_response(step):
-    assert False, 'This step must be implemented'
+    assert_equal(world.response.status, '200 OK')
+    world.root = etree.XML(world.response.data)
+    assert_equal(len(world.root.xpath("/Response")), 1)
 
 
-@step(u'And it should say "(.*)"')
-def and_it_should_say_group1(step, group1):
-    assert False, 'This step must be implemented'
+@step(u'(Then|And) it should (not |)(say|play) "([^"]*)"')
+def then_it_should_say_or_play_string(step, then_or_and, not_or_blank,
+                                      verb, msg):
+    any_matches = False
+    expected_matches = (not_or_blank == "")
+    tag = verb.title()
+    for node in world.root.xpath("//%s" % tag):
+        if msg in node.text:
+            any_matches = True
+    assert_equal(any_matches, expected_matches)
 
 
 @step(u'When I follow the redirect')
 def when_i_follow_the_redirect(step):
-    assert False, 'This step must be implemented'
+    redirect = world.root.xpath("/Response/Redirect")[0]
+    world.response = world.app.open(redirect.text,
+                                    method=redirect.attrib['method'])
 
 
 @step(u'Given there are a few nodes')
 def given_there_are_a_few_nodes(step):
-    assert False, 'This step must be implemented'
+    world.model.create_a_few_nodes()
 
 
 @step(u'Given there is a root node')
 def given_there_is_a_root_node(step):
-    assert False, 'This step must be implemented'
+    world.model.create_root_node()
 
 
 @step(u'And I am on the root node')
@@ -75,11 +91,6 @@ def and_it_should_ask_me_for_the_next_choice(step):
     assert False, 'This step must be implemented'
 
 
-@step(u'And it should not say "(.*)"')
-def and_it_should_not_say_group1(step, group1):
-    assert False, 'This step must be implemented'
-
-
 @step(u'And it should redirect me to the current node if I haven\'t made a choice')
 def and_it_should_redirect_me_to_the_current_node_if_i_haven_t_made_a_choice(step):
     assert False, 'This step must be implemented'
@@ -87,11 +98,6 @@ def and_it_should_redirect_me_to_the_current_node_if_i_haven_t_made_a_choice(ste
 
 @step(u'When I enter "(.*)" when I am on the root node')
 def when_i_enter_group1_when_i_am_on_the_root_node(step, group1):
-    assert False, 'This step must be implemented'
-
-
-@step(u'And it should play "(.*)"')
-def and_it_should_play_group1(step, group1):
     assert False, 'This step must be implemented'
 
 
@@ -123,7 +129,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # XXX This is the code that I partially converted to Python.
 #
 # from lettuce import step
-# from lxml import etree
 #
 #
 # @step(u'I should get a valid TwiML response')
@@ -131,12 +136,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 #     assert_equal(world.response.status, 200)
 #     world.root = etree.XML(world.content)
 #     assert_equal(len(world.root.xpath("/Response")), 1)
-#
-#
-# @step(u'I follow the redirect')
-# def follow_the_redirect():
-#     redirect = world.root.xpath("/Response/Redirect")[0]
-#     world.http.request(redirect.content, sanitize_method(redirect['method']))
 #
 #
 # @step(u'I enter "([^"]*)"')
@@ -153,18 +152,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 #     world.http.request(record['action'], sanitize_method(record['method']), {'RecordingUrl': url})
 #
 #
-# @step(u'it should (not |)(say|play) "([^"]*)"')
-# def should_not_say_or_play_msg(not_present, verb, msg):
-#     for node in world.root.xpath("//%s" % verb.title()):
-#         if msg in node.content and not_present == "":
-#             return True
-#         if msg not in node.content and not_present == "not ":
-#             return True
-#     raise AssertionError(
-#         "It should or should not say or play: not:%r, verb:%r, msg:%r" %
-#         (not_present == "not "), verb, msg)
-#
-#
 # @step(u'it should record something')
 # def should_record_something():
 #     assert world.root.xpath("/Response/Record")
@@ -178,11 +165,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # @step(u'there are a few nodes')
 # def there_are_a_few_nodes():
 #     Node.create_a_few_nodes
-#
-#
-# @step(u'there is a root node')
-# def there_is_a_root_node():
-#     Node.create_a_root_node
 #
 #
 # @step(u'it should tell me the current outcome')
