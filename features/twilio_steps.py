@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 import os
 from tempfile import mkstemp
 
@@ -14,8 +16,8 @@ def before_each_scenario(scenario):
     world._db_fd, pyteladventure.app.config['DATABASE'] = mkstemp()
     world.app = pyteladventure.app.test_client()
     pyteladventure.init_db()
-    world._db = pyteladventure.connect_db()
-    world._cursor = world._db.cursor()
+    world.connection = pyteladventure.connect_db()
+    world._cursor = world.connection.cursor()
     world.model = Model(world._cursor)
 
 
@@ -68,12 +70,14 @@ def when_i_follow_the_redirect(step):
 
 @step(u'Given there are a few nodes')
 def given_there_are_a_few_nodes(step):
-    world.model.create_a_few_nodes()
+    with world.connection:
+        world.model.create_a_few_nodes()
 
 
 @step(u'Given there is a root node')
 def given_there_is_a_root_node(step):
-    world.model.create_root_node()
+    with world.connection:
+        world.model.create_root_node()
 
 
 @step(u'And I am on the root node')
