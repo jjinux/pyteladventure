@@ -125,4 +125,10 @@ class Model(object):
 
         """
         return self._query_db_for_one_record(
-            "SELECT * FROM nodes WHERE parent_id IS ?", (id,))
+            "SELECT * FROM nodes WHERE id = ?", (id,))
+
+    def find_children(self, node_id):
+        """Find the children of the given node."""
+        assert node_id > 0
+        return self._query_db(
+            "SELECT * FROM nodes WHERE parent_id = ?", (node_id,))
