@@ -27,6 +27,11 @@ def after_each_scenario(scenario):
     os.unlink(pyteladventure.DATABASE)
 
 
+def print_world_response_data():
+    print "world.response.data:"
+    print world.response.data
+
+
 @step(u'When I (GET|POST) "(/.*)"')
 def when_i_open_path(step, method, path):
     world.response = world.app.open('/', method=method)
@@ -48,8 +53,7 @@ def then_i_should_get_a_valid_twiml_response(step):
     try:
         world.root = etree.XML(world.response.data)
     except etree.XMLSyntaxError, e:
-        print "world.response.data:"
-        print world.response.data
+        print_world_response_data()
         raise e
     assert_equal(len(world.root.xpath("/Response")), 1)
 
@@ -63,7 +67,11 @@ def then_it_should_say_or_play_string(step, then_or_and, not_or_blank,
     for node in world.root.xpath("//%s" % tag):
         if msg in node.text:
             any_matches = True
-    assert_equal(any_matches, expected_matches)
+    try:
+        assert_equal(any_matches, expected_matches)
+    except AssertionError, e:
+        print_world_response_data()
+        raise e
 
 
 @step(u'When I follow the redirect')
