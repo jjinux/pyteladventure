@@ -92,7 +92,7 @@ def and_i_am_on_the_root_node(step):
 
 @step(u'And it should tell me the current outcome')
 def and_it_should_tell_me_the_current_outcome(step):
-    assert False, 'This step must be implemented'
+    assert world.root.xpath("/Response/Gather/Play")
 
 
 @step(u'And it should ask me for the next choice')
@@ -174,11 +174,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # @step(u'there are a few nodes')
 # def there_are_a_few_nodes():
 #     Node.create_a_few_nodes
-#
-#
-# @step(u'it should tell me the current outcome')
-# def should_tell_me_the_current_outcome():
-#     world.root.xpath("/Response/Gather/Play").should_not be_empty
 #
 #
 # @step(u'it should ask me for the next choice')
