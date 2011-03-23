@@ -1,6 +1,7 @@
 from flask import url_for, render_template, request, g
 
 from pyteladventure import app
+from pyteladventure.choice import Choice
 
 
 @app.route('/')
@@ -23,7 +24,17 @@ def show_node():
     node = find_node()
     choices = []
     children = g.model.find_children(node["id"])
-    return "XXX NOT DONE"
+
+    for i, child in enumerate(children):
+        choices.append(Choice(
+            label="child(%s)" % (i + 1),
+            digits=(i + 1),
+            view_callback=lambda:
+                render_template("play.xml", url=child["choice"]),
+            controller_callback=lambda:
+                redirect(url_for('show_node', id=child["id"]))))
+
+    return render_template("show_node.xml", node=node, choices=choices)
 
 
 def say_message_and_redirect(message, url):
@@ -39,21 +50,3 @@ def find_node():
         return g.model.find_root_node()
     else:
         return g.model.find(node_id)
-
-
-class Choice(object):
-
-    """This is a little DSL for choices.
-
-        Choice.new(label="root_menu",
-                   digits="*2",
-                   view_callback=lambda: do_something...,
-                   controller_block=lambda: redirect_to...)
-
-    """
-
-    def __init__(self, label, digits, view_callback, controller_callback):
-        self.label = str(label)
-        self.digits = str(digits)
-        self.view_callback = view_callback
-        self.controller_callback = controller_callback
