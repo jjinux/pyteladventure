@@ -48,6 +48,16 @@ def show_node():
             controller_callback=lambda:
                 redirect("edit_node", id=node["id"])))
 
+    i += 1
+    choices.append(Choice(
+        label="create_node",
+        digits="*%s" % i,
+        view_callback=lambda:
+            Markup(render_template("say.xml",
+                message="create a new choice and outcome.")),
+        controller_callback=lambda:
+            redirect("create_node", parent_id=node["id"])))
+
     return render_template("show_node.xml", node=node, choices=choices)
 
 
