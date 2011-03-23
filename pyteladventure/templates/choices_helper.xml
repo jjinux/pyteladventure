@@ -1,0 +1,6 @@
+{% macro output_choices(choices) %}
+    {% for choice in choices %}
+        <Say>Press {{ choice.digits }} if you would like to </Say>
+        {{ choice.view_callback() }}
+    {% endfor %}
+{% endmacro %}
