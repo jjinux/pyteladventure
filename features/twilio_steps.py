@@ -105,7 +105,7 @@ def and_it_should_tell_me_the_current_outcome(step):
 
 @step(u'And it should ask me for the next choice')
 def and_it_should_ask_me_for_the_next_choice(step):
-    assert False, 'This step must be implemented'
+    assert world.root.xpath("/Response/Gather")
 
 
 @step(u'And it should redirect me to the current node if I haven\'t made a choice')
@@ -182,11 +182,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # @step(u'there are a few nodes')
 # def there_are_a_few_nodes():
 #     Node.create_a_few_nodes
-#
-#
-# @step(u'it should ask me for the next choice')
-# def should_ask_me_for_the_next_choice():
-#     world.root.xpath("/Response/Gather").should_not be_empty
 #
 #
 # @step(u'it should redirect me to the current node if I haven\'t made a choice')
