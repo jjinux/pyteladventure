@@ -1,4 +1,4 @@
-from flask import url_for, render_template, request, g
+from flask import url_for, render_template, request, g, Markup
 
 from pyteladventure import app
 from pyteladventure.choice import Choice
@@ -30,9 +30,23 @@ def show_node():
             label="child(%s)" % (i + 1),
             digits=(i + 1),
             view_callback=lambda:
-                render_template("play.xml", url=child["choice"]),
+                Markup(render_template("play.xml", url=child["choice"])),
             controller_callback=lambda:
                 redirect(url_for('show_node', id=child["id"]))))
+
+    # It's too confusing if people edit a parent node because usually they'll
+    # break the stories in the child nodes.
+
+    i = 1
+    if not children:
+        choices.append(Choice(
+            label="edit_node",
+            digits="*%s" % i,
+            view_callback=lambda:
+                Markup(render_template("say.xml",
+                    message="edit the current choice and outcome.")),
+            controller_callback=lambda:
+                redirect("edit_node", id=node["id"])))
 
     return render_template("show_node.xml", node=node, choices=choices)
 
