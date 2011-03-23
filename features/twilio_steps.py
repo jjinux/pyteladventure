@@ -87,7 +87,7 @@ def given_there_is_a_root_node(step):
 
 @step(u'And I am on the root node')
 def and_i_am_on_the_root_node(step):
-    assert False, 'This step must be implemented'
+    world.response = world.app.get('/show_node')
 
 
 @step(u'And it should tell me the current outcome')
