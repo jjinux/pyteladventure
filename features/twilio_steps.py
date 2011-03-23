@@ -45,7 +45,12 @@ def when_i_receive_a_phone_call(step):
 @step(u'Then I should get a valid TwiML response')
 def then_i_should_get_a_valid_twiml_response(step):
     assert_equal(world.response.status, '200 OK')
-    world.root = etree.XML(world.response.data)
+    try:
+        world.root = etree.XML(world.response.data)
+    except etree.XMLSyntaxError, e:
+        print "world.response.data:"
+        print world.response.data
+        raise e
     assert_equal(len(world.root.xpath("/Response")), 1)
 
 
