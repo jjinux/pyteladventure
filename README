@@ -66,6 +66,7 @@ TODO
 
  * Finish porting from https://github.com/jjinux/teladventure.
  * Turn off DEBUG.
+ * Blog it.
  * Build a website and show the tree graphically.
  * Give more help when creating or editing nodes.
  * Make it possible to skip the story.
