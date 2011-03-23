@@ -1,0 +1,14 @@
+{%- import 'choices_helper.xml' as choices_helper -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+
+    {# Play the current outcome and ask for the next choice. #}
+    <Gather method="POST" timeout="3">
+        <Play>{{ node.outcome }}</Play>
+        {{ choices_helper.output_choices(choices) }}
+    </Gather>
+
+    {# Timeout. #}
+    <Redirect method="POST">{{ request.url }}</Redirect>
+
+</Response>
