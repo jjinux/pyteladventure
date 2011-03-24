@@ -146,7 +146,7 @@ def when_i_enter_digits_when_i_am_on_the_root_nodes_first_child(step, digits):
         data=dict(id=first_child["id"], Digits=digits), follow_redirects=True)
 
 
-@step(u'^When I enter XXX "(.*)"$')
+@step(u'^When I enter "(.*)"$')
 def when_i_enter_group1(step, group1):
     assert False, 'This step must be implemented'
 
