@@ -1,4 +1,5 @@
 /nbproject
 /env
+/pyteladventure.db
 *.pyc
 .*.swp
