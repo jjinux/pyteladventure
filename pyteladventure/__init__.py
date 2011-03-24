@@ -9,7 +9,7 @@ import sqlite3
 from flask import Flask, g
 
 DATABASE = "pyteladventure.db"  # Relative to project directory
-DEBUG = True
+DEBUG = False
 SECRET_KEY = '8djgk437fkbmnehge0ofvjgnrtoE7CVNghednxdbnvfuir'
 USERNAME = 'admin'
 PASSWORD = 'default'
