@@ -2,7 +2,7 @@ from __future__ import with_statement
 
 import os
 from tempfile import mkstemp
-from urlparse import urlparse
+from urlparse import urlparse, urlunparse
 
 from lettuce import step, before, after, world
 from lxml import etree
@@ -33,17 +33,18 @@ def print_world_response_data():
     print world.response.data
 
 
-def strip_scheme_and_netloc(url):
-    """Get rid of the scheme and netloc in a URL.
+def strip_scheme_and_netloc(full_url):
+    """Get rid of the scheme and the netloc in the URL.
     
     If you try to use a full URL with world.app.open (or get or post), you'll
     get a 404.  You must use just a path.
     
     """
-    parts = urlparse(url)
-    s = "".join([parts.path, parts.params, parts.query, parts.fragment])
-    assert s.startswith("/")
-    return s
+    scheme, netloc, url, params, query, fragment = urlparse(full_url)
+    scheme = netloc = ""
+    partial_url = urlunparse((scheme, netloc, url, params, query, fragment))
+    assert partial_url.startswith("/")
+    return partial_url
 
 
 @step(u'^And there should be no nodes$')
@@ -168,17 +169,7 @@ def when_i_record_something_with_the_given_url(step, recording_url):
 
 
 @step(u'^And there should be a child of the root node with choice "(.*)" and outcome "(.*)"$')
-def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_group2(step, group1, group2):
-    assert False, 'This step must be implemented'
-
-
-# XXX This is the code that I partially converted to Python.
-#
-# @step(u'^it should redirect me if I time out$')
-# def should_redirect_me_if_i_time_out():
-#     assert world.root.xpath("/Response/Redirect")
-#
-#
-# @step(u'^there should be a child of the root node with choice "([^"]*)" and outcome "([^"]*)"$')
-# def should_be_a_child_of_the_root_node_with_choice_and_outcome(choice, outcome):
-#     Node.root.children.find_by_choice_and_outcome(choice, outcome).should_not be_nil
+def and_there_should_be_a_child_of_the_root_node_with_given_choice_and_outcome(step, choice, outcome):
+    parent = world.model.find_root_node()
+    assert world.model.find_child_by_choice_and_outcome(parent["id"],
+        choice, outcome)
