@@ -87,3 +87,5 @@ Headaches I Encountered
    string parameters.  This surprised me and I spent an hour debugging.
    If you want both query string parameters as well as form parameters, use
    request.values.
+
+ * I forgot that closures and loops don't get along.  See model.py.
