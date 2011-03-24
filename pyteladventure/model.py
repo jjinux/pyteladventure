@@ -63,6 +63,13 @@ class Model(object):
         assert self._cursor.lastrowid > 0
         return self._cursor.lastrowid
 
+    def update_node(self, node_id, choice, outcome):
+        self._query_db("""
+            UPDATE nodes
+            SET choice = ?, outcome = ?
+            WHERE id = ?
+        """, [choice, outcome, node_id])
+
     def create_root_node(self):
 
         """Create a root node.  Return its id."""
