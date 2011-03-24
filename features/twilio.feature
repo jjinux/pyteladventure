@@ -85,7 +85,7 @@ Feature: Twilio
 
         When I enter "1"
         Then I should get a valid TwiML response
-        And it should say "Please record a new choice after the beep.  It may be up to 10 seconds long.  Press any key when you are done."
+        And it should say "Please record a new choice after the beep."
         And it should record something
 
         When I record something with the URL "new_choice"
@@ -100,7 +100,7 @@ Feature: Twilio
 
         When I enter "try_again"
         Then I should get a valid TwiML response
-        And it should say "Please record a new choice after the beep.  It may be up to 10 seconds long.  Press any key when you are done."
+        And it should say "Please record a new choice after the beep."
         And it should record something
 
         When I record something with the URL "new_choice"
@@ -163,7 +163,7 @@ Feature: Twilio
 
         When I enter "1"
         Then I should get a valid TwiML response
-        And it should say "Please record a new choice after the beep.  It may be up to 10 seconds long.  Press any key when you are done."
+        And it should say "Please record a new choice after the beep."
         And it should record something
 
         When I record something with the URL "new_choice"
@@ -178,7 +178,7 @@ Feature: Twilio
 
         When I enter "try_again"
         Then I should get a valid TwiML response
-        And it should say "Please record a new choice after the beep.  It may be up to 10 seconds long.  Press any key when you are done."
+        And it should say "Please record a new choice after the beep."
         And it should record something
 
         When I record something with the URL "new_choice"
