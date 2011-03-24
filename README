@@ -89,3 +89,7 @@ Headaches I Encountered
    request.values.
 
  * I forgot that closures and loops don't get along.  See model.py.
+
+ * Lettuce doesn't automatically put ^ and $ in the regexes it suggests.
+   This lead to the wrong regex matching because I had one regex that was
+   a prefix of another one.
