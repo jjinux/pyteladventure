@@ -103,6 +103,12 @@ def create_node_pause():
                   "create_node_record_choice")
 
 
+@app.route('/create_node_record_choice', methods=["GET", "POST"])
+def create_node_record_choice():
+    return _record_node_attr("record_choice.xml", "choice",
+                             "create_node_verify_choice")
+
+
 def _say_message_and_redirect(message, url):
     """Render a TwiML response containing a message and a redirect."""
     return render_template('say_message_and_redirect.xml', message=message,
@@ -164,3 +170,18 @@ def _pause(message, next_view_function):
         return render_template("pause.xml", message=message)
     assert request.method == "POST"
     return redirect(url_for(next_view_function))
+
+
+def _record_node_attr(template, attr_name, next_view_function):
+    """Record something and save it to session["node"][attr_name].
+
+    Redirect to next_view_function.  Make sure your view function accepts both
+    GET and POST.
+
+    """
+    if request.method == "GET":
+        return render_template(template)
+    assert request.method == "POST"
+    recording = session["node"][attr_name] = request.values["RecordingUrl"]
+    return render_template("play_recording_and_redirect",
+        recording=recording, redirect=url_for(next_view_function))
