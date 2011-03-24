@@ -109,6 +109,11 @@ def create_node_record_choice():
                              "create_node_verify_choice")
 
 
+@app.route('/create_node_verify_choice')
+def create_node_verify_choice():
+    return "Hello World"
+
+
 def _say_message_and_redirect(message, url):
     """Render a TwiML response containing a message and a redirect."""
     return render_template('say_message_and_redirect.xml', message=message,
@@ -183,5 +188,5 @@ def _record_node_attr(template, attr_name, next_view_function):
         return render_template(template)
     assert request.method == "POST"
     recording = session["node"][attr_name] = request.values["RecordingUrl"]
-    return render_template("play_recording_and_redirect",
+    return render_template("play_recording_and_redirect.xml",
         recording=recording, redirect=url_for(next_view_function))
