@@ -1,3 +1,5 @@
+from __future__ import with_statement
+
 from flask import url_for, render_template, request, g, Markup, redirect, \
                   session
 
@@ -128,7 +130,8 @@ def create_node_verify_outcome():
 @app.route('/create_node_congratulations')
 def create_node_congratulations():
     node = session["node"]
-    g.model.create_node(node["parent_id"], node["choice"], node["outcome"])
+    with g.connection:
+        g.model.create_node(node["parent_id"], node["choice"], node["outcome"])
     return _say_message_and_redirect("""
         You have created a new choice and outcome.
         You can now continue the adventure where you left off.
