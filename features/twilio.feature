@@ -115,7 +115,7 @@ Feature: Twilio
 
         When I enter "continue"
         Then I should get a valid TwiML response
-        And it should say "Now, record a new outcome after the beep.  It may be up to 60 seconds long.  Press any key when you are done."
+        And it should say "Now, record a new outcome after the beep."
         And it should record something
 
         When I record something with the URL "new_outcome"
@@ -130,7 +130,7 @@ Feature: Twilio
 
         When I enter "try_again"
         Then I should get a valid TwiML response
-        And it should say "Now, record a new outcome after the beep.  It may be up to 60 seconds long.  Press any key when you are done."
+        And it should say "Now, record a new outcome after the beep."
         And it should record something
 
         When I record something with the URL "new_outcome"
@@ -193,7 +193,7 @@ Feature: Twilio
 
         When I enter "continue"
         Then I should get a valid TwiML response
-        And it should say "Now, record a new outcome after the beep.  It may be up to 60 seconds long.  Press any key when you are done."
+        And it should say "Now, record a new outcome after the beep."
         And it should record something
 
         When I record something with the URL "new_outcome"
@@ -208,7 +208,7 @@ Feature: Twilio
 
         When I enter "try_again"
         Then I should get a valid TwiML response
-        And it should say "Now, record a new outcome after the beep.  It may be up to 60 seconds long.  Press any key when you are done."
+        And it should say "Now, record a new outcome after the beep."
         And it should record something
 
         When I record something with the URL "new_outcome"
