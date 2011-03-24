@@ -168,9 +168,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 
 # XXX This is the code that I partially converted to Python.
 #
-# from lettuce import step
-#
-#
 # @step(u'^I enter "([^"]*)"$')
 # def enter_digits(digits):
 #     gather = world.root.xpath("/Response/Gather").first
