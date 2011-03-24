@@ -120,6 +120,11 @@ def create_node_record_outcome():
                              "create_node_verify_outcome")
 
 
+@app.route('/create_node_verify_outcome', methods=["GET", "POST"])
+def create_node_verify_outcome():
+    return _confirm("create_node_record_outcome", "create_node_congratulations")
+
+
 def _say_message_and_redirect(message, url):
     """Render a TwiML response containing a message and a redirect."""
     return render_template('say_message_and_redirect.xml', message=message,
