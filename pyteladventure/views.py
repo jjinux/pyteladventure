@@ -29,9 +29,15 @@ def show_node():
         choices.append(Choice(
             label="child(%s)" % (i + 1),
             digits=(i + 1),
-            view_callback=lambda:
+
+            # This is a little tricky.  I have to pass child to the lambda
+            # explicitly.  Closures and loops don't get along.  Otherwise,
+            # all the lambdas created in the loop will all refer to the last
+            # child.
+
+            view_callback=lambda child=child:
                 Markup(render_template("play.xml", url=child["choice"])),
-            controller_callback=lambda:
+            controller_callback=lambda child=child:
                 redirect(url_for('show_node', id=child["id"]))))
 
     # It's too confusing if people edit a parent node because usually they'll
@@ -70,7 +76,7 @@ def _say_message_and_redirect(message, url):
 
 def _find_node():
     """Find the node the user is looking for or the root node."""
-    node_id = request.form.get("id")
+    node_id = request.values.get("id")
     if node_id is None:
         return g.model.find_root_node()
     else:
@@ -97,7 +103,7 @@ def _handle_choice(choices):
     Handle errors such as timeouts and invalid digits.
     
     """
-    digits = request.form.get("Digits")
+    digits = request.values.get("Digits")
     if digits is None:
         return _say_message_and_redirect(
             "I'm sorry.  I didn't get a response.  Let's try again.",
