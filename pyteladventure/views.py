@@ -1,4 +1,4 @@
-from flask import url_for, render_template, request, g, Markup
+from flask import url_for, render_template, request, g, Markup, redirect
 
 from pyteladventure import app
 from pyteladventure.choice import Choice
