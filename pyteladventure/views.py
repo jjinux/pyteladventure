@@ -125,6 +125,16 @@ def create_node_verify_outcome():
     return _confirm("create_node_record_outcome", "create_node_congratulations")
 
 
+@app.route('/create_node_congratulations')
+def create_node_congratulations():
+    node = session["node"]
+    g.model.create_node(node["parent_id"], node["choice"], node["outcome"])
+    return _say_message_and_redirect("""
+        You have created a new choice and outcome.
+        You can now continue the adventure where you left off.
+    """, url_for("show_node", id=node["parent_id"]))
+
+
 def _say_message_and_redirect(message, url):
     """Render a TwiML response containing a message and a redirect."""
     return render_template('say_message_and_redirect.xml', message=message,
@@ -199,6 +209,7 @@ def _record_node_attr(template, attr_name, next_view_function):
         return render_template(template)
     assert request.method == "POST"
     recording = session["node"][attr_name] = request.values["RecordingUrl"]
+    session.modified = True  # Needed because it's a dict in a dict
     return render_template("play_recording_and_redirect.xml",
         recording=recording, redirect=url_for(next_view_function))
 
