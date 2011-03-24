@@ -6,6 +6,7 @@ Feature: Twilio
     Scenario: Check that the server works
         When I GET "/"
         Then I should see "Hello World!"
+        And there should be no nodes
 
     Scenario: Start the adventure
         Given there are a few nodes
