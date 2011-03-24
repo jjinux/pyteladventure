@@ -81,7 +81,7 @@ Feature: Twilio
         When I enter "create_node" when I am on the root node
         Then I should get a valid TwiML response
         And it should say "You are about to create a new choice and outcome."
-        And it should say "Take a couple minutes to think about what you will say and press any key when you are ready to continue."
+        And it should say "Take a couple minutes"
 
         When I enter "1"
         Then I should get a valid TwiML response
