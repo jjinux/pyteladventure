@@ -135,3 +135,16 @@ class Model(object):
             WHERE parent_id = ?
             ORDER BY created_at, id
         """, (node_id,))
+
+    def find_child_by_choice_and_outcome(self, parent_id, choice, outcome):
+        """Find a child of the parent node with the given choice and outcome.
+
+        Raise an IndexError if there is none.
+
+        """
+        return self._query_db_for_one_record("""
+            SELECT * FROM nodes
+            WHERE parent_id = ?
+            AND choice = ?
+            AND outcome = ?
+        """, (parent_id, choice, outcome))
