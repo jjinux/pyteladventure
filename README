@@ -74,3 +74,11 @@ TODO
  * Test coverage.
  * Figure out the right voice in the feature file.  Who am I?
  * Acknowledge Abraham who gave me the idea.
+
+Headaches I Encountered
+=======================
+
+ * In my tests, I was trying to do world.app.post using a full URL that my
+   app had generated in some XML.  However, Werkzeug always returned a 404.
+   I couldn't get rid of the 404 until I stripped off the scheme and the netloc
+   from the URL.  That's a bug as far as I'm concerned.
