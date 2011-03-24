@@ -79,6 +79,16 @@ def show_node():
             controller_callback=lambda:
                 redirect(url_for("show_node", id=parent["id"]))))
 
+    i += 1
+    choices.append(Choice(
+        label="learn_more",
+        digits="*%s" % i,
+        view_callback=lambda:
+            Markup(render_template("say.xml",
+                message="learn more about Teladventure.")),
+        controller_callback=lambda:
+            redirect(url_for("learn_more"))))
+
     choices.append(Choice(
         label="start_over",
         digits="0",
@@ -183,6 +193,18 @@ def edit_node_congratulations():
         You have edited the current choice and outcome.
         You can now continue the adventure where you left off.
     """, url_for("show_node", id=whats_next))
+
+
+@app.route('/learn_more')
+def learn_more():
+    return _say_message_and_redirect("""
+        PyTeladventure was created by Shannon -jj Behrens using Python, Flask,
+        Lettuce, and Twilio.  Please feel free to submit feedback to the
+        author by emailing him at j,j,i,n,u,x,at,g,mail,dot,com.
+
+        PyTeladventure is open source.  You can get the source code from
+        git,hub,dot,com,slash,j,j,i,n,u,x,slash,p,y,t,e,l,adventure.
+    """, url_for("call"))
 
 
 def _say_message_and_redirect(message, url):
