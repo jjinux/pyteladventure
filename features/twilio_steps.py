@@ -2,6 +2,7 @@ from __future__ import with_statement
 
 import os
 from tempfile import mkstemp
+from urlparse import urlparse
 
 from lettuce import step, before, after, world
 from lxml import etree
@@ -30,6 +31,19 @@ def after_each_scenario(scenario):
 def print_world_response_data():
     print "world.response.data:"
     print world.response.data
+
+
+def strip_scheme_and_netloc(url):
+    """Get rid of the scheme and netloc in a URL.
+    
+    If you try to use a full URL with world.app.open (or get or post), you'll
+    get a 404.  You must use just a path.
+    
+    """
+    parts = urlparse(url)
+    s = "".join([parts.path, parts.params, parts.query, parts.fragment])
+    assert s.startswith("/")
+    return s
 
 
 @step(u'And there should be no nodes')
@@ -82,8 +96,8 @@ def then_it_should_say_or_play_string(step, then_or_and, not_or_blank,
 @step(u'When I follow the redirect')
 def when_i_follow_the_redirect(step):
     redirect = world.root.xpath("/Response/Redirect")[0]
-    world.response = world.app.open(redirect.text,
-                                    method=redirect.attrib['method'])
+    url = strip_scheme_and_netloc(redirect.text)
+    world.response = world.app.open(url, method=redirect.attrib['method'])
 
 
 @step(u'Given there are a few nodes')
