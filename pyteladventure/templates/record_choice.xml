@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Say>
+        Please record a new choice after the beep.  It may be up to 10 seconds
+        long.  Press any key when you are done.
+    </Say>
+    <Record action="{{ request.url }}" maxLength="10" />
+</Response>
