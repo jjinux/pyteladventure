@@ -156,7 +156,7 @@ def when_i_enter_digits(step, digits):
 
 @step(u'^And it should record something$')
 def and_it_should_record_something(step):
-    assert False, 'This step must be implemented'
+    assert world.root.xpath("/Response/Record")
 
 
 @step(u'^When I record something with the URL "(.*)"$')
@@ -176,11 +176,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 #     record = world.root.xpath("/Response/Record").first
 #     assert record
 #     world.http.request(record['action'], sanitize_method(record['method']), {'RecordingUrl': url})
-#
-#
-# @step(u'^it should record something$')
-# def should_record_something():
-#     assert world.root.xpath("/Response/Record")
 #
 #
 # @step(u'^it should redirect me if I time out$')
