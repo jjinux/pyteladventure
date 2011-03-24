@@ -25,7 +25,7 @@ def before_each_scenario(scenario):
 @after.each_scenario
 def after_each_scenario(scenario):
     os.close(world._db_fd)
-    os.unlink(pyteladventure.DATABASE)
+    os.unlink(pyteladventure.app.config['DATABASE'])
 
 
 def print_world_response_data():
