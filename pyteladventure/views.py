@@ -52,7 +52,7 @@ def show_node():
                 Markup(render_template("say.xml",
                     message="edit the current choice and outcome.")),
             controller_callback=lambda:
-                redirect("edit_node", id=node["id"])))
+                redirect(url_for("edit_node", id=node["id"]))))
 
     i += 1
     choices.append(Choice(
@@ -62,7 +62,19 @@ def show_node():
             Markup(render_template("say.xml",
                 message="create a new choice and outcome.")),
         controller_callback=lambda:
-            redirect("create_node", parent_id=node["id"])))
+            redirect(url_for("create_node", parent_id=node["id"]))))
+
+    i += 1
+    if node["parent_id"] is not None:
+        parent = g.model.find(node["parent_id"])
+        choices.append(Choice(
+            label="parent",
+            digits="*%s" % i,
+            view_callback=lambda:
+                Markup(render_template("say.xml",
+                    message="go back a step.")),
+            controller_callback=lambda:
+                redirect(url_for("show_node", id=parent["id"]))))
 
     return _get_and_handle_choice(choices=choices, template="show_node.xml",
                                   node=node)
