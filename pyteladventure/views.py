@@ -76,6 +76,15 @@ def show_node():
             controller_callback=lambda:
                 redirect(url_for("show_node", id=parent["id"]))))
 
+    choices.append(Choice(
+        label="start_over",
+        digits="0",
+        view_callback=lambda:
+            Markup(render_template("say.xml",
+                message="start over.")),
+        controller_callback=lambda:
+            redirect(url_for("call"))))
+
     return _get_and_handle_choice(choices=choices, template="show_node.xml",
                                   node=node)
 
