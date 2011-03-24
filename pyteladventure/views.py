@@ -109,9 +109,9 @@ def create_node_record_choice():
                              "create_node_verify_choice")
 
 
-@app.route('/create_node_verify_choice')
+@app.route('/create_node_verify_choice', methods=["GET", "POST"])
 def create_node_verify_choice():
-    return "Hello World"
+    return _confirm("create_node_record_choice", "create_node_record_outcome")
 
 
 def _say_message_and_redirect(message, url):
@@ -190,3 +190,35 @@ def _record_node_attr(template, attr_name, next_view_function):
     recording = session["node"][attr_name] = request.values["RecordingUrl"]
     return render_template("play_recording_and_redirect.xml",
         recording=recording, redirect=url_for(next_view_function))
+
+
+def _confirm(incorrect_view_function, correct_view_function):
+
+    """This is a helper method to confirm something.
+
+    The view function that calls this function shouldn't do anything else.  You
+    must take care of saying or playing the thing the user is confirming before
+    the user gets to the view function that invokes this method.  Make sure
+    your view function accepts both GET and POST.
+
+    """
+
+    choices = [
+        Choice(
+            label="continue",
+            digits="1",
+            view_callback=lambda:
+                Markup(render_template("say.xml", message="continue.")),
+            controller_callback=lambda:
+                redirect(url_for(correct_view_function))),
+
+        Choice(
+            label="try_again",
+            digits="3",
+            view_callback=lambda:
+                Markup(render_template("say.xml", message="try again.")),
+            controller_callback=lambda:
+                redirect(url_for(incorrect_view_function)))
+    ]
+
+    return _get_and_handle_choice(choices, "gather_one_digit_choice.xml")
