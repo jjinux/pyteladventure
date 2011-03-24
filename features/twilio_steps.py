@@ -5,7 +5,7 @@ from tempfile import mkstemp
 
 from lettuce import step, before, after, world
 from lxml import etree
-from nose.tools import assert_true, assert_equal
+from nose.tools import assert_true, assert_equal, assert_raises
 
 import pyteladventure
 
@@ -15,7 +15,7 @@ def before_each_scenario(scenario):
     from pyteladventure.model import Model  # Import late.
     world._db_fd, pyteladventure.app.config['DATABASE'] = mkstemp()
     world.app = pyteladventure.app.test_client()
-    pyteladventure.init_db()
+    pyteladventure.init_db(create_a_few_nodes=False)
     world.connection = pyteladventure.connect_db()
     world._cursor = world.connection.cursor()
     world.model = Model(world._cursor)
@@ -30,6 +30,11 @@ def after_each_scenario(scenario):
 def print_world_response_data():
     print "world.response.data:"
     print world.response.data
+
+
+@step(u'And there should be no nodes')
+def and_there_should_be_no_nodes(step):
+    assert_raises(IndexError, world.model.find_root_node)
 
 
 @step(u'When I (GET|POST) "(/.*)"')
@@ -110,7 +115,7 @@ def and_it_should_ask_me_for_the_next_choice(step):
 
 @step(u'And it should redirect me to the current node if I haven\'t made a choice')
 def and_it_should_redirect_me_to_the_current_node_if_i_haven_t_made_a_choice(step):
-    assert False, 'This step must be implemented'
+    assert world.root.xpath("/Response/Redirect")
 
 
 @step(u'When I enter "(.*)" when I am on the root node')
@@ -182,11 +187,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # @step(u'there are a few nodes')
 # def there_are_a_few_nodes():
 #     Node.create_a_few_nodes
-#
-#
-# @step(u'it should redirect me to the current node if I haven\'t made a choice')
-# def should_redirect_me_to_the_current_node_if_i_havent_made_a_choice():
-#     world.root.xpath("/Response/Redirect").should_not be_empty
 #
 #
 # @step(u'I enter "([^"]*)" when I am on the root node'):
