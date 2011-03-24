@@ -133,8 +133,8 @@ def and_it_should_redirect_me_to_the_current_node_if_i_haven_t_made_a_choice(ste
 
 
 @step(u'When I enter "(.*)" when I am on the root node')
-def when_i_enter_group1_when_i_am_on_the_root_node(step, group1):
-    assert False, 'This step must be implemented'
+def when_i_enter_digits_when_i_am_on_the_root_node(step, digits):
+    world.response = world.app.post('/show_node', data=dict(Digits=digits))
 
 
 @step(u'When I enter "(.*)" when I am on the root node\'s first child')
@@ -142,7 +142,7 @@ def when_i_enter_group1_when_i_am_on_the_root_node_s_first_child(step, group1):
     assert False, 'This step must be implemented'
 
 
-@step(u'When I enter "(.*)"')
+@step(u'When I enter XXX "(.*)"')
 def when_i_enter_group1(step, group1):
     assert False, 'This step must be implemented'
 
@@ -201,11 +201,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 # @step(u'there are a few nodes')
 # def there_are_a_few_nodes():
 #     Node.create_a_few_nodes
-#
-#
-# @step(u'I enter "([^"]*)" when I am on the root node'):
-# def enter_digits_when_i_am_on_the_root_node(digits):
-#     post_via_redirect url_for('controller': 'twilio', 'action': 'show_node', 'Digits': digits)
 #
 #
 # @step(u'I enter "([^"]*)" when I am on the root node\'s first child')
