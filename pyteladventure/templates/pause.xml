@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+
+    {# Pause for up to 15 minutes. #}
+    <Gather action="{{ request.url }}" method="POST" numDigits="1"
+            timeout="{{ 60 * 15 }}">
+        <Say>{{ message }}</Say>
+    </Gather>
+
+    {# Timeout. #}
+    <Redirect method="POST">{{ request.url }}</Redirect>
+
+</Response>
