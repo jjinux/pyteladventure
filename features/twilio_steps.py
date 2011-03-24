@@ -147,8 +147,11 @@ def when_i_enter_digits_when_i_am_on_the_root_nodes_first_child(step, digits):
 
 
 @step(u'^When I enter "(.*)"$')
-def when_i_enter_group1(step, group1):
-    assert False, 'This step must be implemented'
+def when_i_enter_digits(step, digits):
+    gather = world.root.xpath("/Response/Gather")[0]
+    world.response = world.app.open(gather.attrib['action'],
+                                    method=gather.attrib['method'],
+                                    data=dict(Digits=digits))
 
 
 @step(u'^And it should record something$')
@@ -167,13 +170,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 
 
 # XXX This is the code that I partially converted to Python.
-#
-# @step(u'^I enter "([^"]*)"$')
-# def enter_digits(digits):
-#     gather = world.root.xpath("/Response/Gather").first
-#     assert gather
-#     world.http.request(gather['action'], sanitize_method(gather['method']), {'Digits': digits})
-#
 #
 # @step(u'^I record something with the URL "([^"]*)"$')
 # def record_something_with_the_url(url):
