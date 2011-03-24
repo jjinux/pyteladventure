@@ -1,4 +1,5 @@
-from flask import url_for, render_template, request, g, Markup, redirect
+from flask import url_for, render_template, request, g, Markup, redirect, \
+                  session
 
 from pyteladventure import app
 from pyteladventure.choice import Choice
@@ -87,6 +88,18 @@ def show_node():
 
     return _get_and_handle_choice(choices=choices, template="show_node.xml",
                                   node=node)
+
+
+@app.route('/create_node/<int:parent_id>')
+def create_node(parent_id):
+    assert g.model.find(parent_id)
+    session["node"] = dict(parent_id=parent_id)
+    return redirect(url_for("create_node_pause"))
+
+
+@app.route('/create_node_pause')
+def create_node_pause():
+    return "Hello world"
 
 
 def _say_message_and_redirect(message, url):
