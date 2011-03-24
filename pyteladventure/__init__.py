@@ -19,7 +19,7 @@ app.config.from_object(__name__)
 
 
 def get_db_path():
-    path = DATABASE
+    path = app.config['DATABASE']
     if not path.startswith("/"):
         path = os.path.join(app.root_path, os.path.pardir, DATABASE)
     return path
