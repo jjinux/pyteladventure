@@ -10,9 +10,9 @@ application, written in Ruby on Rails.
 I have started the port but not finished it.  Some of the tests are passing,
 but there is still a lot of stuff to finish off.
 
-Phone number: None yet.
-Running websites: None yet.
-Source code: None yet.
+Phone number: (877) 824-4859
+Running websites: Nothing permanent.
+Source code: https://github.com/jjinux/pyteladventure
 
 Installation
 ============
@@ -73,6 +73,18 @@ sure you turn it off in production because it's a security hole.
 
 Also, you may want to alter the SECRET_KEY in that file if you ever put this
 on a real server.
+
+Setting Up an SSH Tunnel
+========================
+
+It's helpful to setup an ssh tunnel so that you can develop the application
+locally and still access it via Twilio.  I happen to have an account on
+staging.24hrdiner.com.  Here's how I setup the tunnel:
+
+    $ ssh -R \*:5500:127.0.0.1:5000 jj@staging.24hrdiner.com
+
+You can check that the tunnel is working by going to:
+http://staging.24hrdiner.com:5500.
 
 TODO
 ====
