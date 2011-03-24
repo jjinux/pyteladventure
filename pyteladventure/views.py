@@ -138,6 +138,53 @@ def create_node_congratulations():
     """, url_for("show_node", id=node["parent_id"]))
 
 
+@app.route('/edit_node/<int:id>')
+def edit_node(id):
+    node = g.model.find(id)
+    session["node"] = dict(id=id, parent_id=node["parent_id"])
+    return redirect(url_for("edit_node_pause"))
+
+
+@app.route('/edit_node_pause', methods=["GET", "POST"])
+def edit_node_pause():
+    return _pause("You are about to edit the current choice and outcome.",
+                  "edit_node_record_choice")
+
+
+@app.route('/edit_node_record_choice', methods=["GET", "POST"])
+def edit_node_record_choice():
+    return _record_node_attr("record_choice.xml", "choice",
+        "edit_node_verify_choice")
+
+
+@app.route('/edit_node_verify_choice', methods=["GET", "POST"])
+def edit_node_verify_choice():
+    return _confirm("edit_node_record_choice", "edit_node_record_outcome")
+
+
+@app.route('/edit_node_record_outcome', methods=["GET", "POST"])
+def edit_node_record_outcome():
+    return _record_node_attr("record_outcome.xml", "outcome",
+                             "edit_node_verify_outcome")
+
+
+@app.route('/edit_node_verify_outcome', methods=["GET", "POST"])
+def edit_node_verify_outcome():
+    return _confirm("edit_node_record_outcome", "edit_node_congratulations")
+
+
+@app.route('/edit_node_congratulations')
+def edit_node_congratulations():
+    node = session["node"]
+    with g.connection:
+        g.model.update_node(node["id"], node["choice"], node["outcome"])
+    whats_next = node["parent_id"] or node["id"]
+    return _say_message_and_redirect("""
+        You have edited the current choice and outcome.
+        You can now continue the adventure where you left off.
+    """, url_for("show_node", id=whats_next))
+
+
 def _say_message_and_redirect(message, url):
     """Render a TwiML response containing a message and a redirect."""
     return render_template('say_message_and_redirect.xml', message=message,
