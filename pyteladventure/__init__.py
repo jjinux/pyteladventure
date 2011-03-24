@@ -33,11 +33,15 @@ def connect_db():
     return sqlite3.connect(get_db_path())
 
 
-def init_db():
-    with closing(connect_db()) as db:
-        with app.open_resource(get_schema_path()) as f:
-            db.cursor().executescript(f.read())
-        db.commit()
+def init_db(create_a_few_nodes=True):
+    with app.open_resource(get_schema_path()) as f:
+        with closing(connect_db()) as connection:
+            cursor = connection.cursor()
+            cursor.executescript(f.read())
+            if create_a_few_nodes:
+                model = Model(cursor)
+                model.create_a_few_nodes()
+            connection.commit()
 
 
 @app.before_request
@@ -56,3 +60,4 @@ def after_request(response):
 
 
 import pyteladventure.views
+from pyteladventure.model import Model
