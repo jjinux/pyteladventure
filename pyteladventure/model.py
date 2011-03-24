@@ -58,7 +58,7 @@ class Model(object):
         """Create a node.  Return its id."""
         self._query_db("""
             INSERT INTO nodes (parent_id, choice, outcome, created_at)
-            VALUES (?, ?, ?, 'now')
+            VALUES (?, ?, ?, DATETIME('now'))
         """, [parent_id, choice, outcome])
         assert self._cursor.lastrowid > 0
         return self._cursor.lastrowid
@@ -130,5 +130,8 @@ class Model(object):
     def find_children(self, node_id):
         """Find the children of the given node."""
         assert node_id > 0
-        return self._query_db(
-            "SELECT * FROM nodes WHERE parent_id = ?", (node_id,))
+        return self._query_db("""
+            SELECT * FROM nodes
+            WHERE parent_id = ?
+            ORDER BY created_at, id
+        """, (node_id,))
