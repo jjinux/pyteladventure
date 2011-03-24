@@ -97,9 +97,10 @@ def create_node(parent_id):
     return redirect(url_for("create_node_pause"))
 
 
-@app.route('/create_node_pause')
+@app.route('/create_node_pause', methods=["GET", "POST"])
 def create_node_pause():
-    return "Hello world"
+    return _pause("You are about to create a new choice and outcome.",
+                  "create_node_record_choice")
 
 
 def _say_message_and_redirect(message, url):
@@ -148,3 +149,18 @@ def _handle_choice(choices):
     return _say_message_and_redirect(
         "%s is not a valid entry.  Let's try again." % digits,
         request.url)
+
+def _pause(message, next_view_function):
+    """Give the user a chance to think.
+
+    Make sure your view function accepts both GET and POST.
+
+    """
+    if request.method == "GET":
+        message += """
+            Take a couple minutes to think about what you will say and press
+            any key when you are ready to continue.
+        """
+        return render_template("pause.xml", message=message)
+    assert request.method == "POST"
+    return redirect(url_for(next_view_function))
