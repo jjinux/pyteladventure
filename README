@@ -82,3 +82,8 @@ Headaches I Encountered
    app had generated in some XML.  However, Werkzeug always returned a 404.
    I couldn't get rid of the 404 until I stripped off the scheme and the netloc
    from the URL.  That's a bug as far as I'm concerned.
+
+ * request.form only contains PUT or POST data.  It doesn't include query
+   string parameters.  This surprised me and I spent an hour debugging.
+   If you want both query string parameters as well as form parameters, use
+   request.values.
