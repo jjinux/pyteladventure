@@ -19,7 +19,7 @@ def call():
     """, url_for('show_node'))
 
 
-@app.route('/show_node')
+@app.route('/show_node', methods=["GET", "POST"])
 def show_node():
     node = find_node()
     choices = []
