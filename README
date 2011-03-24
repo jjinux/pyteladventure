@@ -65,8 +65,8 @@ Hacking
 =======
 
 The entry point to the code is pyteladventure/__init__.py.  No, it's not an
-empty file.  It may help if you refer to the documentation for Flask, Lettuce,
-and Twilio.
+empty file.  The tests are in the features directory.  It may help if you
+refer to the documentation for Flask, Lettuce, and Twilio.
 
 In that same file, you should turn on DEBUG while developing.  However, make
 sure you turn it off in production because it's a security hole.
