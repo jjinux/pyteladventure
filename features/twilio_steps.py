@@ -160,8 +160,11 @@ def and_it_should_record_something(step):
 
 
 @step(u'^When I record something with the URL "(.*)"$')
-def when_i_record_something_with_the_url_group1(step, group1):
-    assert False, 'This step must be implemented'
+def when_i_record_something_with_the_given_url(step, recording_url):
+    record = world.root.xpath("/Response/Record")[0]
+    url = strip_scheme_and_netloc(record.attrib["action"])
+    world.response = world.app.post(url, data=dict(RecordingUrl=recording_url),
+                                    follow_redirects=True)
 
 
 @step(u'^And there should be a child of the root node with choice "(.*)" and outcome "(.*)"$')
@@ -170,13 +173,6 @@ def and_there_should_be_a_child_of_the_root_node_with_choice_group1_and_outcome_
 
 
 # XXX This is the code that I partially converted to Python.
-#
-# @step(u'^I record something with the URL "([^"]*)"$')
-# def record_something_with_the_url(url):
-#     record = world.root.xpath("/Response/Record").first
-#     assert record
-#     world.http.request(record['action'], sanitize_method(record['method']), {'RecordingUrl': url})
-#
 #
 # @step(u'^it should redirect me if I time out$')
 # def should_redirect_me_if_i_time_out():
