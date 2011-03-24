@@ -1,0 +1,11 @@
+{%- import 'choices_helper.xml' as choices_helper -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+    <Gather action="{{ request.url }}" method="POST" numDigits="1">
+        <Say>{{ message }}</Say>
+        {{ choices_helper.output_choices(choices) }}
+    </Gather>
+
+    {# Timeout. #}
+    <Redirect method="POST">{{ request.url }}</Redirect>
+</Response>
