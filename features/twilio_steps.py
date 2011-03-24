@@ -149,9 +149,9 @@ def when_i_enter_digits_when_i_am_on_the_root_nodes_first_child(step, digits):
 @step(u'^When I enter "(.*)"$')
 def when_i_enter_digits(step, digits):
     gather = world.root.xpath("/Response/Gather")[0]
-    world.response = world.app.open(gather.attrib['action'],
-                                    method=gather.attrib['method'],
-                                    data=dict(Digits=digits))
+    url = strip_scheme_and_netloc(gather.attrib['action'])
+    world.response = world.app.open(url, method=gather.attrib['method'],
+        data=dict(Digits=digits), follow_redirects=True)
 
 
 @step(u'^And it should record something$')
