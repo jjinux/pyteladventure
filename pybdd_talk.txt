@@ -1,0 +1,194 @@
+Introduction:
+
+    Title:
+        Behavioral Driven Development for Telephone Applications
+        Using Lettuce, Flask, and Twilio
+        
+    Summary:
+        Behavioral driven development is a style of programming popular in
+        the Ruby world using tools such as Cucumber and Webrat. In this
+        talk, I'll show how the same tricks can be used in Python too, using
+        a library called Lettuce. I'll also show off Flask which is a new
+        micro web framework. Last of all, I'll cover Twilio which is an API
+        that makes it easy to build telephone-based applications using web
+        technologies.
+
+    About the Speaker:
+        Name: Shannon -jj Behrens
+        Email: jjinux@gmail.com
+        URL: http://jjinux.blogspot.com
+        Code: https://github.com/jjinux/pyteladventure
+        Phone number for Teladventure: 888-877-7418
+
+Goals:
+
+    I want to show you:
+
+        How you can test more with less effort.
+        A web framework that has a gentler learning curve.
+        How to build telephone apps using simple web development skills.
+    
+    I built Teladventure in Ruby.  I ported it to Python in about two days.
+    It's about 1000 lines of code, tests, etc.  In both cases, the code ran
+    almost flawlessly the first time I called the application.  I want to
+    show you how you can achieve this too!
+
+What's Involved:
+
+    Behavior driven development:
+        Using Lettuce
+    
+    Web development:
+        Using Flask
+    
+    Building telephone-enabled applications:
+        Using Twilio
+
+Some Helpful Definitions:
+
+    "Test-driven development (TDD) is a software development technique that
+    relies on the repetition of a very short development cycle: First the
+    developer writes a failing automated test case that defines a desired
+    improvement or new function, then produces code to pass that test and
+    finally refactors the new code to acceptable standards." [Wikipedia]
+
+    In Behavior Driven Development, you first describe the behavior of a
+    system in non-technical terms, and then you implement that behavior.
+    Two core aspects are automated testing of the behavior and outside-in
+    software development.
+
+    In computer programming, unit testing is a software verification and
+    validation method in which a programmer tests if individual units of
+    source code are fit for use. A unit is the smallest testable part of an
+    application. In procedural programming a unit may be an individual
+    function or procedure.
+
+Demo PyTeladventure
+
+Walk Through Creating a Feature:
+
+    twilio.feature
+    twilio_steps.py
+    views.py
+    show_node.xml
+
+Make Some Strong Statements:
+
+    We can still be friends even if you disagree with some of these ;)
+
+    JJ's Zen of Testing:
+
+        Tests that use a style you disagree with are better than no tests at
+        all.
+
+        Tests that catch more errors are better than tests that catch fewer
+        errors.
+
+        Getting more done with less effort is better than getting less done
+        with more effort.
+
+        Tests that are readable are better than tests that are unreadable.
+
+        Tests that are easy to update are better than tests that are hard to
+        update.
+
+        Tests that fail when appropriate are better than tests that fail
+        when it's inappropriate.
+
+        Tests that test the stuff you care about are better than tests that
+        test stuff you don't care about.
+
+        Tests that take little effort and catch a lot are better than tests
+        that take a lot of effort and catch little.
+
+    Other Statements:
+
+        Not all tests have the same value.
+
+        Some tests don't provide enough value to justify their existence:
+
+            Perhaps they take too long to write.
+
+            Perhaps they're too brittle.
+
+            Perhaps they test things that you don't actually care about.
+
+	    I'm not a fan of heavy unit testing of views for all of the above
+	    reasons.
+
+        Blackbox testing the behavior of code by using its interface is much
+        more valuable than whitebox testing its implementation.
+
+        Integration tests (i.e. the whole stack) are more important than unit
+        tests (i.e. the individual pieces).
+
+        Paraphrasing Yehuda Katz, a strong emphasis on testing is no
+        substitute for a good design.
+
+        Separate code that calculates things from code that does things:
+
+            Code that calculates things is easier to test.
+
+	    Maximize the code that calculates things and minimize code that
+	    does things.
+
+            This is the Haskell approach.
+
+        Unit tests don't apply to coverage:
+
+            Bugs like to hide in interfaces.
+
+	    If you test all the pieces separately, they still might blow up
+	    when you put them together.
+
+	    Python doesn't have interfaces or a pedantic compiler to catch
+	    misspellings.
+
+            Stubbing and mocking lead to a false sense of security.
+
+        You must test your error handling code:
+
+	    Bugs like to hide in error handling code that never gets exercised.
+
+	    Not testing error handling code is as bad as not writing error
+	    handling code.
+
+	    If your error handling code just raises an exception, you should
+	    still make sure you're testing your global exception handler.
+
+        Automated testing will not prevent bugs:
+
+	    Exploratory testing is crucial.
+
+	    Someone other than the programmer should do it.
+
+	    *Especially* if the programmer wrote the automated tests.
+
+	    My defect count actually went up because I was too tired to do
+	    proper exploratory testing.
+
+        Automated testing is really about preventing code from breaking later:
+
+	    It provides a safety net when you refactor code to add new
+	    features.
+
+	    It helps engineers work on each others' code.
+
+	    It helps prevent code from turning into a huge, unmaintainable
+	    nightmare.
+
+See Also:
+
+    My comments on the limitations of Agile programming:
+        http://jjinux.blogspot.com/2009/07/agile-programming-im-stuck-in-middle.html
+    
+    A fantastic talk by a Yehuda Katz that flies in the face of conventional
+    testing wisdom:
+        http://rubyconf2008.confreaks.com/writing-code-that-doesnt-suck.html
+        http://jjinux.blogspot.com/2009/09/rails-my-take-on-writing-code-that.html
+
+Conclusion:
+
+    Thanks for coming!
+
+    http://jjinux.blogspot.com
