@@ -7,9 +7,6 @@ using Flask and Twilio.
 It's based on https://github.com/jjinux/teladventure which is the same
 application, written in Ruby on Rails.
 
-I have started the port but not finished it.  Some of the tests are passing,
-but there is still a lot of stuff to finish off.
-
 Phone number: (877) 824-4859
 Running websites: Nothing permanent.
 Source code: https://github.com/jjinux/pyteladventure
