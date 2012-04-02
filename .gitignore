@@ -1,4 +1,5 @@
 /nbproject
+/.idea
 /env
 /pyteladventure.db
 *.pyc
