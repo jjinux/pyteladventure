@@ -14,12 +14,21 @@ Source code: https://github.com/jjinux/pyteladventure
 Installation
 ============
 
-Assuming you're using Ubuntu:
+If you're using Ubuntu:
 
     $ sudo apt-get install python-virtualenv
     $ sudo apt-get install build-essential
     $ sudo apt-get install python-dev
     $ sudo apt-get install libxml2-dev libxslt-dev
+
+If you're using OS X 10.6:
+
+    Install XCode.
+
+    $ sudo easy_install-2.6 virtualenv
+
+    # See: http://stackoverflow.com/questions/5256397/python-easy-install-fails-with-assembler-for-architecture-ppc-not-installed-on
+    $ export ARCHFLAGS="-arch i386 -arch x86_64"
 
 Execute the rest of this as your normal user from within this directory:
 
