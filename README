@@ -5,10 +5,11 @@ This is an interactive, phone-based, adventure game.  It's written in Python
 using Flask and Twilio.
 
 It's based on https://github.com/jjinux/teladventure which is the same
-application, written in Ruby on Rails.
+application, written in Ruby on Rails.  The number for that application is
+(888) 877-7418.
 
-Phone number: (877) 824-4859
-Running websites: Nothing permanent.
+Phone number: Nothing permanent
+Running websites: Nothing permanent
 Source code: https://github.com/jjinux/pyteladventure
 
 Installation
