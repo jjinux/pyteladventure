@@ -3,7 +3,7 @@ Introduction:
     Title:
         Behavioral Driven Development for Telephone Applications
         Using Lettuce, Flask, and Twilio
-        
+
     Summary:
         Behavioral driven development is a style of programming popular in
         the Ruby world using tools such as Cucumber and Webrat. In this
@@ -27,7 +27,7 @@ Goals:
         How you can test more with less effort.
         A web framework that has a gentler learning curve.
         How to build telephone apps using simple web development skills.
-    
+
     I built Teladventure in Ruby.  I ported it to Python in about two days.
     It's about 1000 lines of code, tests, etc.  In both cases, the code ran
     almost flawlessly the first time I called the application.  I want to
@@ -37,10 +37,10 @@ What's Involved:
 
     Behavior driven development:
         Using Lettuce
-    
+
     Web development:
         Using Flask
-    
+
     Building telephone-enabled applications:
         Using Twilio
 
@@ -181,7 +181,7 @@ See Also:
 
     My comments on the limitations of Agile programming:
         http://jjinux.blogspot.com/2009/07/agile-programming-im-stuck-in-middle.html
-    
+
     A fantastic talk by a Yehuda Katz that flies in the face of conventional
     testing wisdom:
         http://rubyconf2008.confreaks.com/writing-code-that-doesnt-suck.html
